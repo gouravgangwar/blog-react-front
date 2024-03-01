@@ -1,0 +1,49 @@
+.FormCheckMargin {
+    margin-left: 4px;
+}
+
+.buttonSection{
+ margin-top: 1%;
+}
+
+
+
+.cardSetContainer {
+    display: flex; /* Use flexbox for layout */
+    justify-content: space-around; /* Space around the cards */
+    align-items: center; /* Center items vertically */
+  }
+  
+  .card {
+    width: 80%; /* Set width for each card */
+    padding: 20px;
+    background-color: #f0f0f0;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1); /* Add shadow for depth */
+  }
+    
+  .card1 {
+    width: 20%; /* Set width for each card */
+    padding: 20px;
+    background-color: #f0f0f0;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1); /* Add shadow for depth */
+    img{
+      width: 100%;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .cardSetContainer {
+      flex-direction: column; /* Stack cards vertically on smaller screens */
+      align-items: stretch; /* Stretch cards to full width */
+    }
+  
+    .card {
+      width: 90%; /* Adjust width for smaller screens */
+      margin-bottom: 20px; /* Add some space between cards */
+    }
+  }
+
+  
+  
