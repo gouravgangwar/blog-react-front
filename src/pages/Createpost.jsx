@@ -18,6 +18,7 @@ function Createpost() {
     type: "",
     category: "",
     content: "",
+    bannerImage: "",
   };
   const [inputData, setInputData] = useState(initialData);
 
@@ -62,6 +63,26 @@ function Createpost() {
     setInputData({ ...inputData, owner: event.target.value });
   };
 
+  const fileUpload = (event) => {
+    const formData = new FormData();
+    formData.append("file", event.target.files[0]);
+    const requestOptions = {
+      method: "POST",
+      body: formData,
+    };
+    fetch(`${base_url}file`, requestOptions)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        setSelectedImage(data.fileDetails.fileId );
+        // navigate("/listpost");
+      }); 
+  };
+
+  const setSelectedImage=(val)=>{
+    setInputData({ ...inputData, bannerImage: val });
+  }
+
   function handleFormData(event) {
     event.preventDefault();
     const errors = {};
@@ -77,6 +98,9 @@ function Createpost() {
     if (!inputData.content) {
       errors.content = "content is required";
     }
+    if (!inputData.bannerImage) {
+      errors.bannerImage = "File is required";
+    }
     const selectedType = Object.values(inputData.type).some((val) => val);
     if (!selectedType) {
       errors.type = "Select at least one type";
@@ -84,7 +108,6 @@ function Createpost() {
     setErrors(errors);
     if (Object.keys(errors).length === 0) {
       console.log(inputData);
-
       console.log(id);
       if (id) {
         const requestOptions1 = {
@@ -203,7 +226,7 @@ function Createpost() {
                   onChange={(newContent) =>
                     setInputData({ ...inputData, content: newContent })
                   }
-                  isInvalid={!!errors.category}
+                  isInvalid={!!errors.content}
                 />
                 <Form.Control.Feedback type="invalid">
                   {errors.content}
@@ -223,6 +246,36 @@ function Createpost() {
                   {errors.owner}
                 </Form.Control.Feedback>
               </Form.Group>
+
+              <Form.Group className="mb-3" controlId="formGroupfile">
+                <Form.Label>Banner File</Form.Label>
+                {/* <input type="file" name="myImage" onChange={fileUpload} /> */}
+
+                <Form.Control
+                  type="file"
+                  onChange={fileUpload}
+                  isInvalid={!!errors.bannerImage}
+                />
+
+                <Form.Control.Feedback type="invalid">
+                  {errors.bannerImage}
+                </Form.Control.Feedback>
+              </Form.Group>
+              <div>
+                {/* <h1>Upload and Display Image usign React Hook's</h1> */}
+
+                {inputData.bannerImage && (
+        <div>
+          <img
+            alt="not found"
+            width={"250px"}
+            src={inputData.bannerImage}
+          />
+          <br />
+          <button onClick={() => setSelectedImage(null)}>Remove</button>
+        </div>
+      )}
+              </div>
 
               <div className="buttonSection">
                 <Button variant="primary" type="submit">

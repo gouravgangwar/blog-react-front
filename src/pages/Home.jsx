@@ -4,6 +4,9 @@ import moment from "moment";
 import Button from "react-bootstrap/Button";
 import { useNavigate } from "react-router-dom";
 import "./Home.css"
+import { Carousel  } from "react-responsive-carousel";
+import blog_1 from "../assets/blog_1.jpg";
+
 function Home() {
   const [blogs, setBlogs] = useState([]);
   const [page, setPage] = useState(1);
@@ -36,11 +39,20 @@ function Home() {
     navigate(`/seepost/${value}`);
   }
 
+  const redirectionBlogDetails = (blog) => {
+    console.log(blog);
+  }
+
   return (
     <>
-      <div className="max-width-1 m-auto">
-        <hr />
+    <Carousel autoPlay:true>
+    {blogs.map((blog, index) => (
+      <div key={index} onClick={()=>redirectionBlogDetails(blog)}> 
+        <img src="https://images.pexels.com/photos/356056/pexels-photo-356056.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"  />
       </div>
+       ))}
+    </Carousel>
+    
       <div className="home-articles max-width-1 m-auto font2">
         <h2>Featured Articles</h2>
         <div className="year-box adjust-year">
