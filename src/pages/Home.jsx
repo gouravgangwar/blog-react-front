@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
-import base_url from "../services/api.service";
+import { base_url } from "../services/api.service";
 import moment from "moment";
 import Button from "react-bootstrap/Button";
 import { useNavigate } from "react-router-dom";
-import "./Home.css"
-import { Carousel  } from "react-responsive-carousel";
-import blog_1 from "../assets/blog_1.jpg";
+import "./Home.css";
+import Carousel from "react-bootstrap/Carousel";
 
 function Home() {
   const [blogs, setBlogs] = useState([]);
+  const [blogsImage, setImageData] = useState([]);
   const [page, setPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
@@ -30,29 +30,48 @@ function Home() {
     }
   };
 
+  useEffect(() => {
+    fetchAnotherData();
+  }, []);
+
+  const fetchAnotherData = async () => {
+    try {
+      const response = await fetch(`${base_url}blogList`);
+      const data = await response.json();
+      setImageData(data.items);
+    } catch (error) {
+      console.error("Error fetching another data:", error);
+    }
+  };
+
   const handleSearch = (event) => {
     setSearchQuery(event.target.value);
   };
 
-
-  function editPage(value) {
+  function seePage(value) {
+    console.log(value);
     navigate(`/seepost/${value}`);
-  }
-
-  const redirectionBlogDetails = (blog) => {
-    console.log(blog);
   }
 
   return (
     <>
-    <Carousel autoPlay:true>
-    {blogs.map((blog, index) => (
-      <div key={index} onClick={()=>redirectionBlogDetails(blog)}> 
-        <img src="https://images.pexels.com/photos/356056/pexels-photo-356056.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"  />
-      </div>
-       ))}
-    </Carousel>
-    
+      <Carousel className="custom-carousel" pause="hover">
+        {blogsImage.slice(0, 5).map((item) => (
+          <Carousel.Item key={item.title}>
+            <img
+              className="d-block w-100"
+              src={item.bannerImage}
+              alt={item.title}
+              onClick={() => seePage(item._id)}
+            />
+            <Carousel.Caption>
+              <h3>{item.title}</h3>
+              <p>{item.owner}</p>
+            </Carousel.Caption>
+          </Carousel.Item>
+        ))}
+      </Carousel>
+
       <div className="home-articles max-width-1 m-auto font2">
         <h2>Featured Articles</h2>
         <div className="year-box adjust-year">
@@ -78,7 +97,7 @@ function Home() {
         {blogs.map((blog, index) => (
           <div className="home-article" key={index}>
             <div className="home-article-content font1">
-              <a className="linkName" onClick={() => editPage(blog._id)}>
+              <a className="linkName" onClick={() => seePage(blog._id)}>
                 <h3>{blog.title}</h3>
               </a>
               {/* <div dangerouslySetInnerHTML={{ __html: htmlContent }}></div> */}

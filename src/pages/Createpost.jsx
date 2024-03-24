@@ -7,7 +7,7 @@ import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import blog_1 from "../assets/blog_1.jpg";
 import JoditEditor from "jodit-react";
-import base_url from "../services/api.service";
+import { base_url, blogTypes } from "../services/api.service";
 import { useNavigate, useParams } from "react-router-dom";
 function Createpost() {
   let { id } = useParams();
@@ -74,14 +74,14 @@ function Createpost() {
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
-        setSelectedImage(data.fileDetails.fileId );
+        setSelectedImage(data.fileDetails.fileUrl);
         // navigate("/listpost");
-      }); 
+      });
   };
 
-  const setSelectedImage=(val)=>{
+  const setSelectedImage = (val) => {
     setInputData({ ...inputData, bannerImage: val });
-  }
+  };
 
   function handleFormData(event) {
     event.preventDefault();
@@ -206,9 +206,11 @@ function Createpost() {
                   isInvalid={!!errors.category}
                 >
                   <option>Open this select Category</option>
-                  <option value="1">LifeStyle</option>
-                  <option value="2">Travel</option>
-                  <option value="3">Tech</option>
+                  {blogTypes.map((option) => (
+                    <option key={option.id} value={option.id}>
+                      {option.name}
+                    </option>
+                  ))}
                 </Form.Select>
                 <Form.Control.Feedback type="invalid">
                   {errors.category}
@@ -265,16 +267,18 @@ function Createpost() {
                 {/* <h1>Upload and Display Image usign React Hook's</h1> */}
 
                 {inputData.bannerImage && (
-        <div>
-          <img
-            alt="not found"
-            width={"250px"}
-            src={inputData.bannerImage}
-          />
-          <br />
-          <button onClick={() => setSelectedImage(null)}>Remove</button>
-        </div>
-      )}
+                  <div>
+                    <img
+                      alt="not found"
+                      width={"250px"}
+                      src={inputData.bannerImage}
+                    />
+                    <br />
+                    <button onClick={() => setSelectedImage(null)}>
+                      Remove
+                    </button>
+                  </div>
+                )}
               </div>
 
               <div className="buttonSection">

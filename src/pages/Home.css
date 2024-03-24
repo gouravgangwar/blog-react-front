@@ -1,3 +1,22 @@
 .linkName{
     cursor: pointer;
 }
+
+.custom-carousel {
+    height: 500px; /* Set the desired height */
+  }
+  
+  .custom-carousel .carousel-inner {
+    height: 100%; /* Make sure the inner content takes up the full height */
+  }
+  
+  .custom-carousel .carousel-item {
+    height: 100%; /* Make sure each slide takes up the full height */
+  }
+  
+  .custom-carousel .carousel-item img {
+    /* object-fit: cover;   */
+    /* Make sure the image covers the full slide height */
+    height: 100%;
+    width: auto;
+  }

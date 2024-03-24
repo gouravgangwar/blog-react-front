@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./ListPost.css";
 import Table from "react-bootstrap/Table";
-import base_url from "../services/api.service";
+import {base_url,blogTypes} from "../services/api.service";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import moment from "moment";
@@ -23,7 +23,18 @@ function Listpost() {
         `${base_url}blogList?page=${page}&limit=10&search=${searchQuery}`
       );
       const data = await response.json();
-      setBlogs(data.items);
+
+      const mappedObj2 = data.items.map((entry) => {
+        const blogType = blogTypes.find((type) => type.id == entry.category);
+        console.log(blogType);
+        return {
+          ...entry,
+          category: blogType ? blogType.name : "Unknown",
+        };
+      });
+
+      console.log(data,blogTypes);
+      setBlogs(mappedObj2);
     } catch (error) {
       console.error("Error fetching blogs:", error);
     }
@@ -66,7 +77,7 @@ function Listpost() {
                 <th>Title</th>
                 <th>Type</th>
                 <th>Content</th>
-
+                 <th>Image</th>
                 <th>Category</th>
                 <th>Publish date</th>
                 <th>Publised by</th>
@@ -104,6 +115,16 @@ function Listpost() {
                       ? `${blog.content.substring(0, 100)}...`
                       : blog.content}
                   </td>
+                  <td    style={{
+                      overflow: "hidden",
+                      whiteSpace: "nowrap",
+                      textOverflow: "ellipsis",
+                    }}>
+                      {/* {blog.bannerImage?.length > 100
+                      ? `${blog.bannerImage?.substring(0, 100)}...`
+                      : blog.bannerImage} */}
+                      <img className="bannerImage1N" src={blog.bannerImage}/>
+                      </td>
 
                   <td>{blog.category}</td>
                   <td>

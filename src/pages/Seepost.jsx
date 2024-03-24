@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./Seepost.css";
-import base_url from "../services/api.service";
+import {base_url} from "../services/api.service";
 import { useParams } from "react-router-dom";
 import moment from "moment";
 function Seepost() {
@@ -28,6 +28,9 @@ function Seepost() {
 
   return (
     <>
+     <div className="post-img">
+        <img src={data.bannerImage} className="bannerImage" alt=""/>
+    </div>
       <div className="m-auto blog-post-content max-width-2 m-auto my-2">
         <h1 className="font1">{data.title}</h1>
         <div className="blogpost-meta">
