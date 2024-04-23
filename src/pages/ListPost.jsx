@@ -26,7 +26,7 @@ function Listpost() {
 
       const mappedObj2 = data.items.map((entry) => {
         const blogType = blogTypes.find((type) => type.id == entry.category);
-        console.log(blogType);
+        // console.log(blogType);
         return {
           ...entry,
           category: blogType ? blogType.name : "Unknown",

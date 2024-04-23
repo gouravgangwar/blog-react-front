@@ -50,8 +50,8 @@ function Login() {
       fetch(`${base_url}loginuser`, requestOptions)
         .then((response) => response.json())
         .then((data) => {
-          console.log(data);
-          // navigate("/login");
+          localStorage.setItem('UserDetails',JSON.stringify(data.userDetails))
+          navigate("/home");
         });
     }
   };

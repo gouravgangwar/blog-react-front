@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 import "./App.css";
 import Footer from "./layout/footer";
 import Header from "./layout/header";
@@ -17,10 +18,11 @@ function App() {
   return (
     <BrowserRouter>
       <div className="container-fluid">
-        <Header />
+        <Header  />
         <section style={{ margin: "10px 0 10px 0" }}>
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/home" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Register />} />
             <Route path="/role" element={<RoleList/>} />
